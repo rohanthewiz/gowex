@@ -1,107 +1,11 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
-	"time"
 )
-
-// ExecutionRequest represents the incoming request with code to execute
-type ExecutionRequest struct {
-	Code string `json:"code"`
-}
-
-// ExecutionResult represents the results of executing Go code
-type ExecutionResult struct {
-	Stdout      string `json:"stdout"`
-	Stderr      string `json:"stderr"`
-	ExecutionMs int64  `json:"executionMs"`
-	Error       string `json:"error,omitempty"`
-	Success     bool   `json:"success"`
-}
-
-// executeGoCode creates a temporary file with the provided code, executes it, and returns the results
-func executeGoCode(code string) ExecutionResult {
-	start := time.Now()
-
-	// Create a temporary directory
-	tempDir, err := os.MkdirTemp("", "goexec")
-	if err != nil {
-		return ExecutionResult{
-			Error:   fmt.Sprintf("Failed to create temp directory: %v", err),
-			Success: false,
-		}
-	}
-	defer func(path string) {
-		err := os.RemoveAll(path)
-		if err != nil {
-
-		}
-	}(tempDir)
-
-	// Create a temporary file for the Go code
-	tempFile := tempDir + "/main.go"
-	if err := os.WriteFile(tempFile, []byte(code), 0644); err != nil {
-		return ExecutionResult{
-			Error:   fmt.Sprintf("Failed to write temp file: %v", err),
-			Success: false,
-		}
-	}
-
-	// Run the code with 'go run'
-	cmd := exec.Command("go", "run", tempFile)
-
-	// Capture stdout and stderr
-	var stdout, stderr bytes.Buffer
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
-
-	err = cmd.Run()
-	duration := time.Since(start)
-
-	result := ExecutionResult{
-		Stdout:      stdout.String(),
-		Stderr:      stderr.String(),
-		ExecutionMs: duration.Milliseconds(),
-		Success:     err == nil,
-	}
-
-	if err != nil {
-		result.Error = err.Error()
-	}
-
-	return result
-}
-
-// executeHandler handles the API endpoint for executing code
-func executeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var req ExecutionRequest
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
-	}
-
-	result := executeGoCode(req.Code)
-
-	w.Header().Set("Content-Type", "application/json")
-	encoder := json.NewEncoder(w)
-	if err := encoder.Encode(result); err != nil {
-		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-		return
-	}
-}
 
 // indexHandler serves the main page
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -123,11 +27,9 @@ func main() {
 		log.Fatalf("Failed to create templates directory: %v", err)
 	}
 
-	// Create the index.html template if it doesn't exist
-	if _, err := os.Stat("templates/index.html"); os.IsNotExist(err) {
-		if err := createIndexTemplate(); err != nil {
-			log.Fatalf("Failed to create index template: %v", err)
-		}
+	// Create the index.html template ** always **
+	if err := createIndexTemplate(); err != nil {
+		log.Fatalf("Failed to create index template: %v", err)
 	}
 
 	// Create the static directory and files
@@ -142,6 +44,8 @@ func main() {
 	// Set up HTTP routes
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/api/execute", executeHandler)
+	// Add this line to the main function after the existing routes
+	http.HandleFunc("/api/format", formatHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	// Start the server
@@ -171,9 +75,9 @@ func createIndexTemplate() error {
         <main>
             <div class="editor-container">
                 <div id="editor"></div>
-                <div class="button-container">
-                    <button id="run-button">Run (Ctrl+Enter)</button>
-                </div>
+			<div class="button-container">
+				<button id="format-button">Format</button>
+				<button id="run-button">Run (Ctrl+Enter)</button>
             </div>
             
             <div class="output-container">
@@ -287,6 +191,21 @@ main {
 
 #run-button:hover {
     background-color: #7038e0;
+}
+
+format-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#format-button:hover {
+    background-color: #3e8e41;
 }
 
 .output-container {
@@ -415,6 +334,7 @@ require(['vs/editor/editor.main'], function() {
         insertSpaces: false
     });
 
+
     // Set up run button and keyboard shortcut
     const runButton = document.getElementById('run-button');
     
@@ -427,6 +347,20 @@ require(['vs/editor/editor.main'], function() {
     
     // Add Ctrl+Enter shortcut
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, executeCode);
+
+const formatButton = document.getElementById('format-button');
+    
+    function formatCode() {
+        const code = editor.getValue();
+        formatGoCode(code);
+    }
+    
+    formatButton.addEventListener('click', formatCode);
+
+    // Add keyboard shortcut (Ctrl+Shift+F) for formatting
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyF, formatCode);
+
+
     
     // Elements for displaying results
     const executionStatus = document.getElementById('execution-status');
@@ -434,6 +368,40 @@ require(['vs/editor/editor.main'], function() {
     const stderrOutput = document.getElementById('stderr-output');
     const executionTime = document.getElementById('execution-time');
     const executionResult = document.getElementById('execution-result');
+
+
+    async function formatGoCode(code) {
+		formatButton.disabled = true;
+
+		try {
+			const response = await fetch('/api/format', {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json'
+		},
+			body: JSON.stringify({ code })
+		});
+
+			if (!response.ok) {
+			throw new Error('Failed to format code: ' + response.statusText);
+		}
+
+			const result = await response.json();
+
+			if (result.success) {
+			// Update editor with formatted code
+			editor.setValue(result.formattedCode);
+		} else {
+			console.error('Format error:', result.error);
+			alert('Failed to format code: ' + result.error);
+		}
+		} catch (error) {
+			console.error('Error formatting code:', error);
+			alert('Error formatting code: ' + error.message);
+		} finally {
+			formatButton.disabled = false;
+		}
+	}
     
     async function runCode(code) {
         // Update UI to show code is executing
