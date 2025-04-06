@@ -1,0 +1,8 @@
+git.akyoto.dev/go/assert v0.1.3 h1:QwCUbmG4aZYsNk/OuRBz1zWVKmGlDUHhOnnDBfn8Qw8=
+git.akyoto.dev/go/assert v0.1.3/go.mod h1:0GzMaM0eURuDwtGkJJkCsI7r2aUKr+5GmWNTFPgDocM=
+github.com/rohanthewiz/element v0.4.1 h1:+y+2rteZsH1n2LnqYk4qIlEi8Gj9ykjsDNKzauj/lRo=
+github.com/rohanthewiz/element v0.4.1/go.mod h1:yxmrFVnO9eQQ7GbjRfJgJG9u8yHUjTTxy/6ji3PNhXY=
+github.com/rohanthewiz/element v0.4.2-0.20250329225931-2d5817c218db h1:W9MnTBsLcGPY9wxxDTZlYAcaTJJaBGQA19gjXkgogdA=
+github.com/rohanthewiz/element v0.4.2-0.20250329225931-2d5817c218db/go.mod h1:yxmrFVnO9eQQ7GbjRfJgJG9u8yHUjTTxy/6ji3PNhXY=
+github.com/rohanthewiz/rweb v0.1.12 h1:2C5i6Zxy/2UXRw9gaIQ3RmOuOxfdA9QhIq9IEdPM0xo=
+github.com/rohanthewiz/rweb v0.1.12/go.mod h1:GBeM+x9dq6LY3GCQXRFNxX5sLpBBcZdsCLw39qj2PmA=

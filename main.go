@@ -1,25 +1,27 @@
 package main
 
 import (
-	"html/template"
+	"github.com/rohanthewiz/element"
+	"github.com/rohanthewiz/rweb"
+	// "html/template"
 	"log"
-	"net/http"
+	// "net/http"
 	"os"
 )
 
 // indexHandler serves the main page
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("templates/index.html")
-	if err != nil {
-		http.Error(w, "Failed to load template", http.StatusInternalServerError)
-		return
-	}
-
-	if err := tmpl.Execute(w, nil); err != nil {
-		http.Error(w, "Failed to render template", http.StatusInternalServerError)
-		return
-	}
-}
+// func indexHandler(w http.ResponseWriter, r *http.Request) {
+// 	tmpl, err := template.ParseFiles("templates/index.html")
+// 	if err != nil {
+// 		http.Error(w, "Failed to load template", http.StatusInternalServerError)
+// 		return
+// 	}
+//
+// 	if err := tmpl.Execute(w, nil); err != nil {
+// 		http.Error(w, "Failed to render template", http.StatusInternalServerError)
+// 		return
+// 	}
+// }
 
 func main() {
 	// Ensure the templates directory exists
@@ -27,10 +29,10 @@ func main() {
 		log.Fatalf("Failed to create templates directory: %v", err)
 	}
 
-	// Create the index.html template ** always **
-	if err := createIndexTemplate(); err != nil {
-		log.Fatalf("Failed to create index template: %v", err)
-	}
+	// // Create the index.html template ** always **
+	// if err := createIndexTemplate(); err != nil {
+	// 	log.Fatalf("Failed to create index template: %v", err)
+	// }
 
 	// Create the static directory and files
 	if err := os.MkdirAll("static/css", 0755); err != nil {
@@ -41,80 +43,116 @@ func main() {
 		log.Fatalf("Failed to create static files: %v", err)
 	}
 
-	// Set up HTTP routes
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/api/execute", executeHandler)
-	// Add this line to the main function after the existing routes
-	http.HandleFunc("/api/format", formatHandler)
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-
+	// // Set up HTTP routes
+	// http.HandleFunc("/", indexHandler)
+	// http.HandleFunc("/api/execute", executeHandler)
+	// // Add this line to the main function after the existing routes
+	// http.HandleFunc("/api/format", formatHandler)
+	// http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	//
 	// Start the server
-	port := ":8080"
-	log.Printf("Starting server on %s", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	s := rweb.NewServer(rweb.ServerOptions{
+		Address: ":8000",
+		Verbose: true,
+	})
+
+	// Middleware
+	s.Use(rweb.RequestInfo)
+
+	s.Get("/", createIndexTemplate)
+	log.Fatal(s.Run())
 }
 
 // createIndexTemplate creates the HTML template file
-func createIndexTemplate() error {
-	indexHTML := `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Code Executor</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <!-- Monaco Editor -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
-</head>
-<body>
-    <div class="app-container">
-        <header>
-            <h1>Go Code Executor</h1>
-        </header>
-        
-        <main>
-            <div class="editor-container">
-                <div id="editor"></div>
-			<div class="button-container">
-				<button id="format-button">Format</button>
-				<button id="run-button">Run (Ctrl+Enter)</button>
-            </div>
-            
-            <div class="output-container">
-                <div class="output-header">
-                    <h2>Execution Results</h2>
-                    <div id="execution-status">Ready</div>
-                </div>
-                
-                <div class="output-content">
-                    <div class="output-section">
-                        <h3>Standard Output</h3>
-                        <pre id="stdout-output" class="output-area"></pre>
-                    </div>
-                    
-                    <div class="output-section">
-                        <h3>Standard Error</h3>
-                        <pre id="stderr-output" class="output-area error"></pre>
-                    </div>
-                    
-                    <div class="execution-info">
-                        <div id="execution-time"></div>
-                        <div id="execution-result"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <footer>
-            <p>Go Code Executor - A web-based Go code execution environment</p>
-        </footer>
-    </div>
+func createIndexTemplate(ctx *rweb.Context) error {
+	b, e, t := element.Vars()
+	_ = e
 
-    <script src="/static/js/app.js"></script>
-</body>
-</html>`
+	b.Html().R(
+		b.Head().R(
+			b.Meta("charset", "UTF-8").R(),
+			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0"),
+			b.Title("Go Code Executor").R(),
+			b.Link("rel", "stylesheet", "href", "/static/css/style.css"),
+		),
+		b.Body().R(
+			b.Div("class", "app-container").R(
+				b.Header().R(
+					b.H1("Go Go Executor").R(),
+				),
+				b.Main().R(
+					b.Div("class", "app-container").R(
+						b.Div("id", "editor").R(),
+						b.Div("class", "button-container").R(
+							b.Button("id", "format-button").R(
+								t("Format"),
+							),
+						),
+					),
+				),
+			),
+		),
+	)
 
-	return os.WriteFile("templates/index.html", []byte(indexHTML), 0644)
+	// 	indexHTML := `<!DOCTYPE html>
+	// <html lang="en">
+	// <head>
+	//     <meta charset="UTF-8">
+	//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	//     <title>Go Code Executor</title>
+	//     <link rel="stylesheet" href="/static/css/style.css">
+	//     <!-- Monaco Editor -->
+	//     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+	// </head>
+	// <body>
+	//     <div class="app-container">
+	//         <header>
+	//             <h1>Go Code Executor</h1>
+	//         </header>
+	//
+	//         <main>
+	//             <div class="editor-container">
+	//                 <div id="editor"></div>
+	// 			<div class="button-container">
+	// 				<button id="format-button">Format</button>
+	// 				<button id="run-button">Run (Ctrl+Enter)</button>
+	//             </div>
+	//
+	//             <div class="output-container">
+	//                 <div class="output-header">
+	//                     <h2>Execution Results</h2>
+	//                     <div id="execution-status">Ready</div>
+	//                 </div>
+	//
+	//                 <div class="output-content">
+	//                     <div class="output-section">
+	//                         <h3>Standard Output</h3>
+	//                         <pre id="stdout-output" class="output-area"></pre>
+	//                     </div>
+	//
+	//                     <div class="output-section">
+	//                         <h3>Standard Error</h3>
+	//                         <pre id="stderr-output" class="output-area error"></pre>
+	//                     </div>
+	//
+	//                     <div class="execution-info">
+	//                         <div id="execution-time"></div>
+	//                         <div id="execution-result"></div>
+	//                     </div>
+	//                 </div>
+	//             </div>
+	//         </main>
+	//
+	//         <footer>
+	//             <p>Go Code Executor - A web-based Go code execution environment</p>
+	//         </footer>
+	//     </div>
+	//
+	//     <script src="/static/js/app.js"></script>
+	// </body>
+	// </html>`
+
+	return os.WriteFile("templates/index.html", []byte(b.string()), 0644)
 }
 
 // createStaticFiles creates CSS and JS files for the web interface
