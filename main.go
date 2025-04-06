@@ -59,12 +59,12 @@ func main() {
 	// Middleware
 	s.Use(rweb.RequestInfo)
 
-	s.Get("/", createIndexTemplate)
+	s.Get("/", htmlPage)
 	log.Fatal(s.Run())
 }
 
 // createIndexTemplate creates the HTML template file
-func createIndexTemplate(ctx *rweb.Context) error {
+func htmlPage(ctx *rweb.Context) error {
 	b, e, t := element.Vars()
 	_ = e
 
@@ -74,6 +74,7 @@ func createIndexTemplate(ctx *rweb.Context) error {
 			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0"),
 			b.Title("Go Code Executor").R(),
 			b.Link("rel", "stylesheet", "href", "/static/css/style.css"),
+			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"),
 		),
 		b.Body().R(
 			b.Div("class", "app-container").R(
@@ -84,75 +85,45 @@ func createIndexTemplate(ctx *rweb.Context) error {
 					b.Div("class", "app-container").R(
 						b.Div("id", "editor").R(),
 						b.Div("class", "button-container").R(
-							b.Button("id", "format-button").R(
-								t("Format"),
+							b.Button("id", "format-button").R(t("Format")),
+							b.Button("id", "run-button").R(
+								t("Run (ctrl+Enter)"),
 							),
+						),
+						b.Div("class", "output-container").R(
+							b.Div("class", "output-header").R(
+								b.H2("Execution Results"),
+								b.Div("id", "execution-status").R(t("Ready")),
+							),
+						),
+						b.Div("class", "output-content").R(
+							b.Div("class", "output-section").R(
+								b.H3("Standard Output").R(),
+								b.Pre("id", "stdout-output", "class", "output-area").R(),
+							),
+						),
+						b.Div("class", "output-section").R(
+							b.H3("Standard Error").R(),
+							b.Pre("id", "stderr-output", "class", "output-area", "error").R(),
+						),
+						b.Div("class", "execution-info").R(
+							b.Div("id", "execution-time").R(),
+							b.Div("id", "execution-result").R(),
 						),
 					),
 				),
+				b.Footer().R(
+					b.P("Go Code Executor - A web-based Go code execution environment").R(),
+				),
 			),
+			b.Script("src", "/static/js/app.js").R(),
 		),
 	)
 
-	// 	indexHTML := `<!DOCTYPE html>
-	// <html lang="en">
-	// <head>
-	//     <meta charset="UTF-8">
-	//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	//     <title>Go Code Executor</title>
-	//     <link rel="stylesheet" href="/static/css/style.css">
-	//     <!-- Monaco Editor -->
-	//     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
-	// </head>
-	// <body>
-	//     <div class="app-container">
-	//         <header>
-	//             <h1>Go Code Executor</h1>
-	//         </header>
-	//
-	//         <main>
-	//             <div class="editor-container">
-	//                 <div id="editor"></div>
-	// 			<div class="button-container">
-	// 				<button id="format-button">Format</button>
-	// 				<button id="run-button">Run (Ctrl+Enter)</button>
-	//             </div>
-	//
-	//             <div class="output-container">
-	//                 <div class="output-header">
-	//                     <h2>Execution Results</h2>
-	//                     <div id="execution-status">Ready</div>
-	//                 </div>
-	//
-	//                 <div class="output-content">
-	//                     <div class="output-section">
-	//                         <h3>Standard Output</h3>
-	//                         <pre id="stdout-output" class="output-area"></pre>
-	//                     </div>
-	//
-	//                     <div class="output-section">
-	//                         <h3>Standard Error</h3>
-	//                         <pre id="stderr-output" class="output-area error"></pre>
-	//                     </div>
-	//
-	//                     <div class="execution-info">
-	//                         <div id="execution-time"></div>
-	//                         <div id="execution-result"></div>
-	//                     </div>
-	//                 </div>
-	//             </div>
-	//         </main>
-	//
-	//         <footer>
-	//             <p>Go Code Executor - A web-based Go code execution environment</p>
-	//         </footer>
-	//     </div>
-	//
-	//     <script src="/static/js/app.js"></script>
-	// </body>
-	// </html>`
-
-	return os.WriteFile("templates/index.html", []byte(b.string()), 0644)
+	// Write the HTML string to the HTTP response
+	ctx.Resp.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_, err := ctx.Resp.Write([]byte(b.String()))
+	return err
 }
 
 // createStaticFiles creates CSS and JS files for the web interface
