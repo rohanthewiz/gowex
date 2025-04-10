@@ -38,7 +38,7 @@ func formatGoCode(code string) FormatResult {
 	}
 
 	// Run go fmt on the file
-	cmd := exec.Command("gofmt", tempFile)
+	cmd := exec.Command("gofmt", "-s", tempFile)
 	var stdout bytes.Buffer
 	cmd.Stdout = &stdout
 
