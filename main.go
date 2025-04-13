@@ -1,9 +1,8 @@
 package main
 
 import (
-	"log"
-
 	"github.com/rohanthewiz/rweb"
+	"log"
 )
 
 func main() {

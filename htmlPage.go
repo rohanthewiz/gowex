@@ -21,51 +21,48 @@ type htmlPage struct{}
 
 func (h htmlPage) Render(b *element.Builder) (x any) {
 	_, _, t := element.Vars()
-
 	styleContent := cssContent{}
 	scriptContent := jsContent{}
 
 	b.Html().R(
 		b.Head().R(
 			b.Meta("charset", "UTF-8").R(),
-			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0"),
+			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0").R(),
 			b.Title("Go Code Executor").R(),
 			styleContent.Render(b),
-			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"),
+			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").R(),
 		),
 		b.Body().R(
 			b.Div("class", "app-container").R(
 				b.Header().R(
-					b.H1("Go Go Executor").R(),
+					b.H1().R(t("Go Go Executor")),
 				),
 				b.Main().R(
-					b.Div("class", "app-container").R(
+					b.Div("class", "editor-container").R(
 						b.Div("id", "editor").R(),
 						b.Div("class", "button-container").R(
 							b.Button("id", "format-button").R(t("Format")),
-							b.Button("id", "run-button").R(
-								t("Run (ctrl+Enter)"),
-							),
+							b.Button("id", "run-button").R(t("Run (ctrl+Enter)")),
 						),
-						b.Div("class", "output-container").R(
-							b.Div("class", "output-header").R(
-								b.H2("Execution Results"),
-								b.Div("id", "execution-status").R(t("Ready")),
-							),
+					),
+					b.Div("class", "output-container").R(
+						b.Div("class", "output-header").R(
+							b.H2().R(t("Execution Results")),
+							b.Div("id", "execution-status").R(t("Ready")),
 						),
 						b.Div("class", "output-content").R(
 							b.Div("class", "output-section").R(
 								b.H3("Standard Output").R(),
 								b.Pre("id", "stdout-output", "class", "output-area").R(),
 							),
-						),
-						b.Div("class", "output-section").R(
-							b.H3("Standard Error").R(),
-							b.Pre("id", "stderr-output", "class", "output-area", "error").R(),
-						),
-						b.Div("class", "execution-info").R(
-							b.Div("id", "execution-time").R(),
-							b.Div("id", "execution-result").R(),
+							b.Div("class", "output-section").R(
+								b.H3("Standard Error").R(),
+								b.Pre("id", "stderr-output", "class", "output-area", "error").R(),
+							),
+							b.Div("class", "execution-info").R(
+								b.Div("id", "execution-time").R(),
+								b.Div("id", "execution-result").R(),
+							),
 						),
 					),
 				),
@@ -159,7 +156,7 @@ main {
     background-color: #7038e0;
 }
 
-format-button {
+#format-button {
     background-color: #4CAF50;
     color: white;
     border: none;
