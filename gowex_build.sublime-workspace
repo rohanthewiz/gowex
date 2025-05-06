@@ -1,0 +1,291 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Window",
+				"WindowShouldClose() "
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "htmlPage.go",
+			"settings":
+			{
+				"buffer_size": 10974,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Odin + Raylib on the web",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Odin + Raylib on the web",
+					""
+				],
+				[
+					"Odin + Raylib on the web",
+					"desktop + run"
+				]
+			],
+			[
+				"Odin + Raylib on the web",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"lsp enable",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"install pack",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 201.0,
+		"history":
+		[
+			"odin run source\\game.odin",
+			"odin run source/game.odin",
+			"odin run source/game",
+			"odin run .",
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Devin Bolden/Personal Projects/gowex"
+	],
+	"file_history":
+	[
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/snake_web_build.sublime-project",
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/source/game.odin",
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/build/web/index.js",
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/source/main_web/main_web.odin",
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/project.sublime-project",
+		"/C/code/sublime_odin/sublime_odin.sublime-project",
+		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/build_web.bat",
+		"/C/code/snake/snake.odin",
+		"/C/Users/Devin Bolden/emsdk/emsdk_env.sh",
+		"/C/code/snake/snakeImprovement.text",
+		"/C/odin/vendor/raylib/raylib.odin",
+		"/C/code/sublime_odin/hello_world.odin",
+		"/C/code/sublime_odin/hellope.odin",
+		"/C/code/sublime_odin/sublime_odin.sublime_odin",
+		"/C/Program Files/Sublime Text/sublime_odin/sublime_odin"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"localhost",
+			"false"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "htmlPage.go",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 10974,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"lsp_uri": "file:///C:/Users/Devin%20Bolden/Personal%20Projects/gowex/htmlPage.go",
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 126.0
+	},
+	"output.diagnostics":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 201.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Odin + Raylib on the web",
+	"project": "gowex_build.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\Devin Bolden\\Personal Projects\\snake_web\\odin-raylib-web\\source\\game.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"lsp_show_inlay_hints": false
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 252.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

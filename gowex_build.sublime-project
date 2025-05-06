@@ -1,0 +1,27 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		},
+	],
+	"build_systems":
+	[
+		{
+			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
+			"name": "gowex",
+			"cmd": "go run .",
+		},
+	],
+	"settings":
+	{
+		"auto_complete": true,
+		"LSP":
+		{
+			"gopls":
+			{
+				"enabled": true,
+			},
+		},
+	},
+}
