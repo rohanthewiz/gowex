@@ -1,16 +1,17 @@
 package main
 
-import(
-	"github.com/rohanthewiz/element"
+import (
+    "github.com/rohanthewiz/element"
 )
 
-	type cssContent struct{}
+type cssContent struct{}
 
 func (cs cssContent) Render(b *element.Builder) (x any) {
+    t := b.Text
 
-	// Create CSS directory and file
-	b.Style().R(
-		`html, body {
+    // Create CSS directory and file
+    b.Style().R(t(
+        `html, body {
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
@@ -192,6 +193,6 @@ footer {
         flex: 1;
     }
 }`,
-	)
-	return
+    ))
+    return
 }

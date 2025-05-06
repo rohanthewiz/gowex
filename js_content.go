@@ -1,16 +1,17 @@
 package main
 
-import(
-	"github.com/rohanthewiz/element"
+import (
+    "github.com/rohanthewiz/element"
 )
 
 // createStaticFiles creates CSS and JS files for the web interface
 type jsContent struct{}
 
 func (js jsContent) Render(b *element.Builder) (x any) {
+    t := b.Text
 
-	b.Script().R(
-		`// Set up Monaco loader first
+    b.Script().R(t(
+        `// Set up Monaco loader first
 require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs' } });
 
 // Then load the editor
@@ -154,6 +155,6 @@ require(['vs/editor/editor.main'], function() {
         }
     }
 });`,
-	)
-	return
+    ))
+    return
 }
