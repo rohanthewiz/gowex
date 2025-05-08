@@ -33,6 +33,7 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 			b.Link("rel", "stylesheet", "href", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.css").R(),
 			styleContent.Render(b),
 			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").R(),
+			scriptContent.Render(b),
 		),
 		b.Body().R(
 
@@ -74,7 +75,6 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 					b.P().R(t("Go Code Executor - A web-based Go code execution environment")),
 				),
 			),
-			scriptContent.Render(b),
 		),
 	)
 

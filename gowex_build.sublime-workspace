@@ -11,14 +11,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "htmlPage.go",
-			"settings":
-			{
-				"buffer_size": 10974,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Odin + Raylib on the web",
 	"build_system_choices":
@@ -93,6 +85,9 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Devin Bolden/Personal Projects/gowex/htmlPage.go",
+		"/C/Users/Devin Bolden/Personal Projects/gowex/css_content.go",
+		"/C/Users/Devin Bolden/Personal Projects/gowex/js_content.go",
 		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/snake_web_build.sublime-project",
 		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/source/game.odin",
 		"/C/Users/Devin Bolden/Personal Projects/snake_web/odin-raylib-web/build/web/index.js",
@@ -149,39 +144,6 @@
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "htmlPage.go",
-					"selected": true,
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 10974,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"lsp_uri": "file:///C:/Users/Devin%20Bolden/Personal%20Projects/gowex/htmlPage.go",
-							"syntax": "Packages/Go/Go.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
 			]
 		}
 	],
