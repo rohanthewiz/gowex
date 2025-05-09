@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"github.com/rohanthewiz/element"
 	"github.com/rohanthewiz/rweb"
 )
@@ -20,9 +21,12 @@ func renderer(comps ...element.Component) string {
 
 type htmlPage struct{}
 
+//go:embed assets/style.css
+var styles string
+
 func (h htmlPage) Render(b *element.Builder) (x any) {
 	_, t := b.Vars()
-	styleContent := cssContent{}
+	// styleContent := cssContent{}
 	scriptContent := jsContent{}
 
 	b.Html().R(
@@ -31,7 +35,8 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0").R(),
 			b.Title().R(t("Go Code Executor")),
 			b.Link("rel", "stylesheet", "href", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.css").R(),
-			styleContent.Render(b),
+			// styleContent.Render(b),
+			b.Style().R(t(styles)),
 			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").R(),
 			scriptContent.Render(b),
 		),
