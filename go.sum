@@ -1,11 +1,15 @@
 git.akyoto.dev/go/assert v0.1.3 h1:QwCUbmG4aZYsNk/OuRBz1zWVKmGlDUHhOnnDBfn8Qw8=
 git.akyoto.dev/go/assert v0.1.3/go.mod h1:0GzMaM0eURuDwtGkJJkCsI7r2aUKr+5GmWNTFPgDocM=
+github.com/rohanthewiz/element v0.4.1-0.20240610014730-cae6bd9b5361 h1:K21oUBInEVl6IIfP89aVngikXS8uJvp4TN6onc87Ang=
+github.com/rohanthewiz/element v0.4.1-0.20240610014730-cae6bd9b5361/go.mod h1:yxmrFVnO9eQQ7GbjRfJgJG9u8yHUjTTxy/6ji3PNhXY=
 github.com/rohanthewiz/element v0.4.1 h1:+y+2rteZsH1n2LnqYk4qIlEi8Gj9ykjsDNKzauj/lRo=
 github.com/rohanthewiz/element v0.4.1/go.mod h1:yxmrFVnO9eQQ7GbjRfJgJG9u8yHUjTTxy/6ji3PNhXY=
 github.com/rohanthewiz/element v0.4.2-0.20250329225931-2d5817c218db h1:W9MnTBsLcGPY9wxxDTZlYAcaTJJaBGQA19gjXkgogdA=
 github.com/rohanthewiz/element v0.4.2-0.20250329225931-2d5817c218db/go.mod h1:yxmrFVnO9eQQ7GbjRfJgJG9u8yHUjTTxy/6ji3PNhXY=
 github.com/rohanthewiz/element v0.4.5-0.20250419170819-c890bcf72046 h1:sCf2CJW3c3VnkAZ2yIYEujeGspuWTSZ1MuCmpKf2sqM=
 github.com/rohanthewiz/element v0.4.5-0.20250419170819-c890bcf72046/go.mod h1:cA57S9UGRSaWrMmGC1M+8QCQw/y8kgODiBB0KEwIyzo=
+github.com/rohanthewiz/element v0.4.5-0.20250505164646-57b76106eb58 h1:SfW9emJ7efHzHpvVj8Fthr7Qlq9Kxje7jO9Zj6lz7Lc=
+github.com/rohanthewiz/element v0.4.5-0.20250505164646-57b76106eb58/go.mod h1:cA57S9UGRSaWrMmGC1M+8QCQw/y8kgODiBB0KEwIyzo=
 github.com/rohanthewiz/rweb v0.1.12 h1:2C5i6Zxy/2UXRw9gaIQ3RmOuOxfdA9QhIq9IEdPM0xo=
 github.com/rohanthewiz/rweb v0.1.12/go.mod h1:GBeM+x9dq6LY3GCQXRFNxX5sLpBBcZdsCLw39qj2PmA=
 github.com/rohanthewiz/rweb v0.1.13-0.20250307165947-074c63d462ae h1:CL7ksi0wR5c0/jb4Um4dZd0asg0HBPlTz0miKe7IJsU=
