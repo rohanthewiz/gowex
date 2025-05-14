@@ -24,19 +24,18 @@ type htmlPage struct{}
 //go:embed assets/style.css
 var styles string
 
-func (h htmlPage) Render(b *element.Builder) (x any) {
-	scriptContent := jsContent{}
+//go:embed assets/script.js
+var javascriptFile string
 
+func (h htmlPage) Render(b *element.Builder) (x any) {
 	b.Html().R(
 		b.Head().R(
 			b.Meta("charset", "UTF-8").R(),
 			b.Meta("name", "viewport", "content", "width=device-width, initial-scale=1.0").R(),
 			b.Title().T("Go Code Executor"),
 			b.Link("rel", "stylesheet", "href", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.css").R(),
-			// styleContent.Render(b),
 			b.Style().T(styles),
-			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").R(),
-			scriptContent.Render(b),
+			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").T(javascriptFile),
 		),
 		b.Body().R(
 
