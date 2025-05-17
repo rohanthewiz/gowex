@@ -21,6 +21,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Todo add GoImports
 func main() {
 	// Ensure the templates directory exists
 	if err := os.MkdirAll("templates", 0755); err != nil {
