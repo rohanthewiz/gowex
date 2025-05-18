@@ -8,10 +8,27 @@ import (
 	"os"
 	"os/exec"
 	"time"
+
+	"github.com/rohanthewiz/rweb"
 )
 
+func exeHandler(s *rweb.Server) {
+	s.Post("/api/execute", func(ctx rweb.Context) error {
+		codeBytes := ctx.Request().Body()
+		req := CodeRequest{}
+
+		err := json.Unmarshal(codeBytes, &req)
+		if err != nil {
+			fmt.Println("error", err)
+			return err
+		}
+
+		return ctx.WriteJSON(executeGoCode(req.Code))
+	})
+}
+
 // ExecutionRequest represents the incoming request with code to execute
-type ExecutionRequest struct {
+type CodeRequest struct {
 	Code string `json:"code"`
 }
 
@@ -84,7 +101,7 @@ func executeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req ExecutionRequest
+	var req CodeRequest
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&req); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)

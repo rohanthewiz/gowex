@@ -17,6 +17,8 @@ func main() {
 	s.Use(rweb.RequestInfo)
 
 	htmlHandler(s)
+	exeHandler(s)
+	fmtHandler(s)
 
 	log.Fatal(s.Run())
 }
