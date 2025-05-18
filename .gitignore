@@ -15,3 +15,7 @@ templates/
 
 static/
 !static/.keep
+
+sublime/
+gowex_project.sublime-workspace
+gowex_project.sublime-project
