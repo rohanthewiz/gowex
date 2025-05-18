@@ -118,7 +118,7 @@ require(['vs/editor/editor.main'], function() {
             // Update UI with results
             stdoutOutput.textContent = result.stdout || 'No output';
             stderrOutput.textContent = result.stderr || 'No errors';
-            executionTime.textContent =` + "`Execution time: ${result.executionMs} ms`;" + `
+            executionTime.textContent =`Execution time: ${result.executionMs} ms`;
             
             if (result.success) {
                 executionStatus.textContent = 'Completed';

@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+
 	"github.com/rohanthewiz/element"
 	"github.com/rohanthewiz/rweb"
 )
@@ -35,7 +36,10 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 			b.Title().T("Go Code Executor"),
 			b.Link("rel", "stylesheet", "href", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.css").R(),
 			b.Style().T(styles),
-			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").T(javascriptFile),
+			// A script tag should use the "src" attribute to load external JavaScript files or
+			// include inline JavaScript code as a child element, but not both at least, that's the convention I know.
+			// Putting the inline JS at the end of the body to make sure all the page elements are in place before this JS runs
+			b.Script("src", "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js").R(),
 		),
 		b.Body().R(
 
@@ -51,24 +55,25 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 							b.Button("id", "format-button").T("Format"),
 							b.Button("id", "run-button").T("Run (ctrl+Enter)"),
 						),
-					),
-					b.Div("class", "output-container").R(
-						b.Div("class", "output-header").R(
-							b.H2().T("Execution Results"),
-							b.Div("id", "execution-status").T("Ready"),
-						),
-						b.Div("class", "output-content").R(
-							b.Div("class", "output-section").R(
-								b.H3().T("Standard Output"),
-								b.Pre("id", "stdout-output", "class", "output-area").R(),
+						b.Div("class", "output-container").R(
+							b.Div("class", "output-header").R(
+								b.H2().T("Execution Results"),
+								b.Div("id", "execution-status").T("Ready"),
 							),
-							b.Div("class", "output-section").R(
-								b.H3().T("Standard Error"),
-								b.Pre("id", "stderr-output", "class", "output-area, error").R(),
-							),
-							b.Div("class", "execution-info").R(
-								b.Div("id", "execution-time").R(),
-								b.Div("id", "execution-result").R(),
+							b.Div("class", "output-content").R(
+								b.Div("class", "output-section").R(
+									b.H3().T("Standard Output"),
+									b.Pre("id", "stdout-output", "class", "output-area").R(),
+								),
+								b.Div("class", "output-section").R(
+									b.H3().T("Standard Error"),
+									// (Multiple classes are separated by spaces)
+									b.Pre("id", "stderr-output", "class", "output-area error").R(),
+								),
+								b.Div("class", "execution-info").R(
+									b.Div("id", "execution-time").R(),
+									b.Div("id", "execution-result").R(),
+								),
 							),
 						),
 					),
@@ -77,6 +82,8 @@ func (h htmlPage) Render(b *element.Builder) (x any) {
 					b.P().T("Go Code Executor - A web-based Go code execution environment"),
 				),
 			),
+			// Putting the inline JS at the end of the body to make sure all the page elements are in place before this JS runs
+			b.Script().T(javascriptFile),
 		),
 	)
 
