@@ -4,10 +4,26 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/rohanthewiz/rweb"
 	"net/http"
 	"os"
 	"os/exec"
 )
+
+func fmtHandler(s *rweb.Server) {
+	s.Post("/api/format", func(ctx rweb.Context) error {
+		codeBytes := ctx.Request().Body()
+		req := CodeRequest{}
+
+		err := json.Unmarshal(codeBytes, &req)
+		if err != nil {
+			fmt.Println("error", err)
+			return err
+		}
+
+		return ctx.WriteJSON(formatGoCode(req.Code))
+	})
+}
 
 // FormatResult represents the result of formatting Go code
 type FormatResult struct {
@@ -77,7 +93,7 @@ func formatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req ExecutionRequest
+	var req CodeRequest
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&req); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
